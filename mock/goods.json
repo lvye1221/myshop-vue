@@ -1,0 +1,35 @@
+{
+  "status": "0",
+  "result": [
+    {
+      "productId": "1001",
+      "productName": "小米6",
+      "productPrice": "2499",
+      "productImg": "mi6.jpg"
+    },
+    {
+      "productId": "1002",
+      "productName": "自拍杆",
+      "productPrice": "99",
+      "productImg": "zipai.jpg"
+    },
+    {
+      "productId": "1003",
+      "productName": "平衡车",
+      "productPrice": "1000",
+      "productImg": "pingheng.jpg"
+    },
+    {
+      "productId": "1004",
+      "productName": "摄像头",
+      "productPrice": "59",
+      "productImg": "photo.jpg"
+    },
+    {
+      "productId": "1001",
+      "productName": "插线板",
+      "productPrice": "49",
+      "productImg": "6.jpg"
+    }
+  ]
+}
