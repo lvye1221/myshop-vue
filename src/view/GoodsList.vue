@@ -1,13 +1,7 @@
 <template>
   <div>
-    <div class="nav-breadcrumb-wrap">
-      <div class="container">
-        <nav class="nav-breadcrumb">
-          <a href="/">Home</a>
-          <span>Goods</span>
-        </nav>
-      </div>
-    </div>
+    <nav-bread>商品</nav-bread>
+
     <div class="accessory-result-page accessory-page">
       <div class="container">
         <div class="filter-nav">
@@ -70,12 +64,17 @@
 
 <script>
   import axios from 'axios'
+  import NavBread from '@/components/NavBread.vue'
+
   export default {
     name: 'GoodsList',
     data () {
       return {
         GoodsList: Array
       }
+    },
+    components: {
+      NavBread
     },
     mounted: function() {
       this.getGoodsList()
