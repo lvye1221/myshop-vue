@@ -3,7 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import '../static/css/base.css'
+import '../static/css/checkout.css'
+import '../static/css/login.css'
+import '../static/css/product.css'
 
+Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -77,4 +77,13 @@ http://localhost:8080/persons
 
 
 
+# step3-page-display #
 
+页面的显示
+
+
+安装依赖
+```
+cnpm i -S axios
+cnpm i -S vue-axios
+```

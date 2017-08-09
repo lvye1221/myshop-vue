@@ -1,23 +1,23 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <nav-header></nav-header>
     <router-view></router-view>
+    <nav-footer></nav-footer>
   </div>
 </template>
 
 <script>
+import NavHeader from '@/components/Header.vue'
+import NavFooter from '@/components/Footer.vue'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    NavHeader,
+    NavFooter
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
