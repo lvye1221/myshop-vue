@@ -29,9 +29,11 @@ mongoose.connection.on("disconnected", function() {
 router.get('/list', function(req, res, next) {
 	var result = Goods.find({}, function(err, goods) {
 	
-		console.log(goods);
-
-		res.json(goods);
+		// 返回JSON数据
+		res.json({
+			status: 0,
+			result: goods
+		});
 	});
 
 });

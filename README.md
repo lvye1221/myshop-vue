@@ -106,6 +106,21 @@ axios.get("/goods").then((result) => {
 
 ## 图片的懒加载 ##
 
+```
+
+
+cnpm i -S vue-lazyload
+
+
+
+
+
+<a href="#"><img  v-bind:src="'/static/img/' + item.productImage" alt=""></a>
+
+<a href="#"><img  v-lazy="'/static/img/' + item.productImage" alt=""></a>
+
+```
+
 
 ```
 import VueLazyLoad from 'vue-lazyload'
@@ -172,5 +187,47 @@ mongoosee
 
 ## JSON-插件 ##
 
+chrome 插件
+
 JSON-handle
+
+
+## 跨域的问题解决 ##
+
+config/index.js
+
+
+```
+proxyTable: {
+    // 代表请求某个数据时，就自动转发服务器
+    '/goods': {
+	    target: 'http://localhost:3000'
+	},
+    // * 代表当前接口中的所有数据
+    '/goods/*': {
+	    target: 'http://localhost:3000'
+	}
+}
+
+```
+
+
+
+## 排序实现 ##
+
+请求数据
+```
+
+// 获取传递出来的数据
+let sort = req.param("sort");
+
+```
+
+
+
+## 自动启动服务器 ##
+
+```
+supervisor bin/www
+```
 

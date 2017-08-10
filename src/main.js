@@ -13,6 +13,13 @@ import '../static/css/product.css'
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 
+import VueLazyLoad from 'vue-lazyload'
+
+Vue.use(VueLazyLoad,{
+    // loading:'/static/loading/loading-spinning-bubbles.svg'
+    loading:'/static/img/ok-2.png'
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -43,11 +43,11 @@
               <ul>
                 <li v-for="item in GoodsList">
                   <div class="pic">
-                    <a href="#"><img :src="'./static/img/' + item.productImg" alt=""></a>
+                    <a href="#"><img  v-lazy="'/static/img/' + item.productImage" alt=""></a>
                   </div>
                   <div class="main">
                     <div class="name">{{item.productName}}</div>
-                    <div class="price">￥{{item.productPrice}}</div>
+                    <div class="price">￥{{item.salePrice}}</div>
                     <div class="btn-area">
                       <a href="javascript:;" class="btn btn--m">加入购物车</a>
                     </div>
@@ -81,10 +81,11 @@
     },
     methods: {
       getGoodsList() {
-      	axios.get('/goods').then((result) => {
-      	  let res = result.data.result
+      	axios.get('/goods/list').then((res) => {
       	  console.log(res)
-      	  this.GoodsList = res
+      	  let result = res.data.result;
+      	  console.log(result)
+      	  this.GoodsList = result
       	})
       }
     }

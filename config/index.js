@@ -27,7 +27,16 @@ module.exports = {
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+	proxyTable: {
+		// 代表请求某个数据时，就自动转发服务器
+		'/goods': {
+			target: 'http://localhost:3000'
+		},
+		// * 代表当前接口中的所有数据
+		'/goods/*': {
+			target: 'http://localhost:3000'
+		}
+	},
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // (https://github.com/webpack/css-loader#sourcemaps)
