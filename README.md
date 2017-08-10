@@ -1,32 +1,32 @@
 # myshop-vue
 
-ç”µå•†ç½‘ç«™é¡¹ç›®å±•ç¤º
+µçÉÌÍøÕ¾ÏîÄ¿Õ¹Ê¾
 
-# æ–°å»ºé¡¹ç›® #
+# ĞÂ½¨ÏîÄ¿ #
 
 ```
-// åˆå§‹åŒ–é¡¹ç›®
+// ³õÊ¼»¯ÏîÄ¿
 vue init webpack vuex-demo
 
-// è¿›å…¥é¡¹ç›®ç›®å½•
+// ½øÈëÏîÄ¿Ä¿Â¼
 cd vuex-demo
 
-// å®‰è£…ä¾èµ–
+// °²×°ÒÀÀµ
 cnpm i
 
-// å®‰è£…é¡¹ç›®ä¾èµ–
+// °²×°ÏîÄ¿ÒÀÀµ
 cnpm i -S vuex
 
 ```
 
 # step2-mock #
 
-æ¨¡æ‹Ÿæ•°æ®
+Ä£ÄâÊı¾İ
 
 
-## jsonæ–‡ä»¶ ##
+## jsonÎÄ¼ş ##
 
-åœ¨å½“å‰ç›®å½•æ–°å»º
+ÔÚµ±Ç°Ä¿Â¼ĞÂ½¨
 mock/goods.json
 
 ```
@@ -35,7 +35,7 @@ mock/goods.json
   "result": [
     {
       "productId": "1001",
-      "productName": "å°ç±³6",
+      "productName": "Ğ¡Ã×6",
       "productPrice": "2499",
       "productImg": "mi6.jpg"
     },
@@ -44,11 +44,11 @@ mock/goods.json
 
 
 
-## æœåŠ¡å™¨å®šä¹‰æ¥å£ ##
+## ·şÎñÆ÷¶¨Òå½Ó¿Ú ##
 
 build/dev-server.js
 
-æ‰¾åˆ°å¦‚ä¸‹ä½ç½®ï¼Œåœ¨ä¹‹åæ·»åŠ æ¥å£ä»£ç ï¼š
+ÕÒµ½ÈçÏÂÎ»ÖÃ£¬ÔÚÖ®ºóÌí¼Ó½Ó¿Ú´úÂë£º
 ```
 var app = express()
 var compiler = webpack(webpackConfig)
@@ -56,7 +56,7 @@ var compiler = webpack(webpackConfig)
 
 
 
-// åœ¨è¿™é‡Œæ¥å®šä¹‰æ¥å£
+// ÔÚÕâÀïÀ´¶¨Òå½Ó¿Ú
 var persons = require("../mock/goods.json");
 
 app.get("/persons", function(req, res) {
@@ -67,66 +67,94 @@ app.get("/persons", function(req, res) {
 ```
 
 
-## è®¿é—®åœ°å€ ##
+## ·ÃÎÊµØÖ· ##
 
 ```
 http://localhost:8080/persons
 ```
 
-å¯ä»¥çœ‹åˆ°è¿”å›çš„ json æ•°æ®
+¿ÉÒÔ¿´µ½·µ»ØµÄ json Êı¾İ
 
 
 
 # step3-page-display #
 
-é¡µé¢çš„æ˜¾ç¤º
+Ò³ÃæµÄÏÔÊ¾
 
 
-å®‰è£…ä¾èµ–
+°²×°ÒÀÀµ
 ```
 cnpm i -S axios
 cnpm i -S vue-axios
 ```
 
+## ajax ÇëÇóÊı¾İ ##
+
+```
+npm i axios -D
+
+import axios from 'axios'
+
+axios.get("/goods").then((result) => {
+    let res = result.data.result;
+    console.log(result);
+    this.GoodsList = res;
+})
+
+
+```
+
+## Í¼Æ¬µÄÀÁ¼ÓÔØ ##
+
+
+```
+import VueLazyLoad from 'vue-lazyload'
+
+Vue.use(VueLazyLoad,{
+    // loading:'/static/loading/loading-spinning-bubbles.svg'
+    loading:'/static/img/ok-2.png'
+});
+
+```
 
 
 # step4-database #
 
-æ•°æ®åº“çš„å®‰è£…
+Êı¾İ¿âµÄ°²×°
 
 
-## æœåŠ¡å™¨æµ‹è¯• ##
+## ·şÎñÆ÷²âÊÔ ##
 
 ```
 npm install express-generator -g
+
 express server
 
 cd server
 cnpm i
 
-// å¯åŠ¨æ–¹å¼
+// Æô¶¯·½Ê½
 
 node bin/www
 
-// è®¿é—®localhost:3000
+// ·ÃÎÊlocalhost:3000
 ```
 
 
-## å¯åŠ¨æ•°æ®åº“ ##
+## Æô¶¯Êı¾İ¿â ##
 
-å¯¹äºlinuxçš„ç”µè„‘ç¯å¢ƒï¼Œå¯ä»¥é€šè¿‡è¿™ä¸ªæ–‡ä»¶ mongo.conf æ¥é…ç½®
+¶ÔÓÚlinuxµÄµçÄÔ»·¾³£¬¿ÉÒÔÍ¨¹ıÕâ¸öÎÄ¼ş mongo.conf À´ÅäÖÃ
 
 ```
-port=27018 #æŒ‡å®šç«¯å£
-fork=true #åå°è¿è¡Œ
-dbpath=/home/map/mongodb/mongo #è§„å®šæ•°æ®åº“çš„ä½ç½®
-logpath=/home/map/mongodb/mlog/mongodb.log #è§„å®šæ•°æ®åº“çš„æ—¥å¿—æ–‡ä»¶
-slave=true #å£°æ˜ä»
-source=192.168.0.4:27018 #è§„å®šä»å±äºå“ªä¸ªip  æ³¨æ„ï¼šipæ˜¯ä¸»æœåŠ¡å™¨çš„  æœ€å¥½ç”¨å†…ç½‘ip
-# bind_ip=127.0.0.1,192.168.0.4 #å…è®¸çš„åœ°å€ ä¸ºäº†å®‰å…¨
-nohttpinterface=true #ç¦æ­¢httpè®¿é—®
+port=27018 #Ö¸¶¨¶Ë¿Ú
+fork=true #ºóÌ¨ÔËĞĞ
+dbpath=/home/map/mongodb/mongo #¹æ¶¨Êı¾İ¿âµÄÎ»ÖÃ
+logpath=/home/map/mongodb/mlog/mongodb.log #¹æ¶¨Êı¾İ¿âµÄÈÕÖ¾ÎÄ¼ş
+slave=true #ÉùÃ÷´Ó
+source=192.168.0.4:27018 #¹æ¶¨´ÓÊôÓÚÄÄ¸öip  ×¢Òâ£ºipÊÇÖ÷·şÎñÆ÷µÄ  ×îºÃÓÃÄÚÍøip
+# bind_ip=127.0.0.1,192.168.0.4 #ÔÊĞíµÄµØÖ· ÎªÁË°²È«
+nohttpinterface=true #½ûÖ¹http·ÃÎÊ
 ```
-
 
 ```
 
@@ -135,8 +163,14 @@ cd C:\project\myshop-vue\data
 ```
 
 
+## Êı¾İ¿â²Ù×÷ ##
+
+mongoosee
 
 
 
 
+## JSON-²å¼ş ##
+
+JSON-handle
 
