@@ -89,3 +89,54 @@ cnpm i -S vue-axios
 ```
 
 
+
+# step4-database #
+
+数据库的安装
+
+
+## 服务器测试 ##
+
+```
+npm install express-generator -g
+express server
+
+cd server
+cnpm i
+
+// 启动方式
+
+node bin/www
+
+// 访问localhost:3000
+```
+
+
+## 启动数据库 ##
+
+对于linux的电脑环境，可以通过这个文件 mongo.conf 来配置
+
+```
+port=27018 #指定端口
+fork=true #后台运行
+dbpath=/home/map/mongodb/mongo #规定数据库的位置
+logpath=/home/map/mongodb/mlog/mongodb.log #规定数据库的日志文件
+slave=true #声明从
+source=192.168.0.4:27018 #规定从属于哪个ip  注意：ip是主服务器的  最好用内网ip
+# bind_ip=127.0.0.1,192.168.0.4 #允许的地址 为了安全
+nohttpinterface=true #禁止http访问
+```
+
+
+```
+
+cd C:\project\myshop-vue\data
+
+```
+
+
+
+
+
+
+
