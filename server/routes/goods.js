@@ -27,6 +27,51 @@ mongoose.connection.on("disconnected", function() {
 
 // 获取商品的列表
 router.get('/list', function(req, res, next) {
+
+	var sort = req.param("sort");
+	var priceLevel = req.param("priceLevel");
+	var param = {};
+
+	if (priceLevel == '') {
+		priceLevel = 'all';
+	}
+
+	if (priceLevel != 'all') {
+		var priceGt = '';
+		var priceLte = '';
+
+		switch (priceLevel) {
+			case '0': priceGt = 0; priceLte = 100;break;
+			case '1': priceGt = 100; priceLte = 500;break;
+			case '2': priceGt = 500; priceLte = 1000;break;
+			case '3': priceGt = 1000; priceLte = 5000;break;
+		}
+
+		param = {
+		  salePrice:{
+			$gt:priceGt,
+			$lte:priceLte,
+		  }
+		}
+	}
+
+	// 获取数据
+	var goodModel = Goods.find(param);
+	// 按照价格排序
+	goodModel.sort({'salePrice':sort})
+
+	// 执行命令
+	goodModel.exec({},function(err, docs) {
+	  console.log(docs);
+	  res.json({
+		status:'0',
+		result:docs
+	  });
+	});
+
+
+    // 获取数据
+	/*
 	var result = Goods.find({}, function(err, goods) {
 	
 		// 返回JSON数据
@@ -35,7 +80,7 @@ router.get('/list', function(req, res, next) {
 			result: goods
 		});
 	});
-
+	//*/
 });
 
 

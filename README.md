@@ -106,21 +106,22 @@ axios.get("/goods").then((result) => {
 
 ## 图片的懒加载 ##
 
+安装依赖项：
 ```
-
-
 cnpm i -S vue-lazyload
 
 
-
-
-
+图片正常加载与懒加载之间的代码对比
+```
+// 正常通过途径来显示
 <a href="#"><img  v-bind:src="'/static/img/' + item.productImage" alt=""></a>
 
+// 懒加载的方式实现  v-lazy
 <a href="#"><img  v-lazy="'/static/img/' + item.productImage" alt=""></a>
 
 ```
 
+在项目的 main.js 中来使用此方式
 
 ```
 import VueLazyLoad from 'vue-lazyload'
@@ -135,10 +136,12 @@ Vue.use(VueLazyLoad,{
 
 # step4-database #
 
-数据库的安装
+mongodb 数据库的安装
 
 
-## 服务器测试 ##
+## 服务器的搭建 ##
+
+采用 express 框架，通过工具 express-generator 的方式来创建
 
 ```
 npm install express-generator -g
@@ -148,8 +151,7 @@ express server
 cd server
 cnpm i
 
-// 启动方式
-
+// 启动方式，当然后期可以写在启动的脚本中
 node bin/www
 
 // 访问localhost:3000
@@ -165,24 +167,21 @@ port=27018 #指定端口
 fork=true #后台运行
 dbpath=/home/map/mongodb/mongo #规定数据库的位置
 logpath=/home/map/mongodb/mlog/mongodb.log #规定数据库的日志文件
-slave=true #声明从
+slave=true #声明主从关系
 source=192.168.0.4:27018 #规定从属于哪个ip  注意：ip是主服务器的  最好用内网ip
 # bind_ip=127.0.0.1,192.168.0.4 #允许的地址 为了安全
 nohttpinterface=true #禁止http访问
 ```
 
-```
-
-cd C:\project\myshop-vue\data
+对于 Windows 系列的电脑，需要通过安装服务的方式来实现，大概思路是将 命令及其选项 安装称 服务，设置成自动启动即可
 
 ```
 
+```
 
 ## 数据库操作 ##
 
 mongoosee
-
-
 
 
 ## JSON-插件 ##
@@ -216,18 +215,47 @@ proxyTable: {
 ## 排序实现 ##
 
 请求数据
-```
 
-// 获取传递出来的数据
+### 思路1： 通过修改服务器的排序方式来实现 ###
+
+```
+// 获取从客户端传的数据
 let sort = req.param("sort");
 
+
+
+
+// 获取数据
+var goodModel = Goods.find(param);
+// 按照价格排序
+goodModel.sort({'salePrice':sort})
+
+// 执行命令
+goodModel.exec({},function(err, docs) {
+  console.log(docs);
+  res.json({
+	status:'0',
+	result:docs
+  });
+});
+
 ```
 
+### 思路2： 通过前端代码来实现 ###
 
 
 ## 自动启动服务器 ##
 
 ```
+// 使用方式
+npm install supervisor -g
+
+// 使用方式
 supervisor bin/www
+
+// 直接替代node
 ```
 
+
+
+@click="setPriceFilter(index)" :class="{'cur':priceChecked == index}"
