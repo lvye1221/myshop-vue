@@ -262,3 +262,111 @@ supervisor bin/www
 
 工具的使用
 
+## 分页功能的实现 ##
+
+
+获取到分页的参数
+```
+var page = req.param("page"); //第几页
+
+var pageSize = req.param("pageSize"); //每页有多少条数据
+pageSize = parseInt(pageSize); // 转换成整数
+
+var skip = (page-1) * pagesize; // 需要跳过多少条
+
+
+
+
+// 注意 pageSize 要传递 整数 才行
+var goodModel = Goods.find(param).limit(pageSize).skip(skip);
+
+```
+
+
+## 滚动刷新控件 ##
+
+
+
+
+main.js
+
+```
+// 全局注册滚动组件
+import infiniteScroll from 'vue-infinite-scroll'
+Vue.use(infiniteScroll)
+
+
+
+
+
+<!-- 正在加载提示框
+v-infinite-scroll 代表 一滚动对应的距离，就自动调用 loadMore 方法
+infinite-scroll-disabled true代表禁用此控件
+infinite-scroll-distance 代表多少距离触发此控件
+-->
+<div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="20">
+  正在加载 ...
+</div>
+
+
+
+
+loadMore() {
+
+    // 首先禁止滚动刷新
+    this.busy = true;
+
+    // 延迟加载
+    setTimeout(() => {
+      this.page ++;
+      this.getGoodsList();
+    }, 500);
+}
+
+
+
+
+// 获取商品列表
+getGoodsList() {
+    let param = {
+      sort:this.sortFlag ? 1 : -1,
+      priceLevel: this.priceChecked, 
+      page: this.page, 
+      pageSize: this.pageSize
+    }
+
+  	axios.get('/goods/list', {params:param}).then((res) => {
+  	  let result = res.data.result;
+  	  
+  // 是否第一次加载
+  if (this.isFirstLoad) {
+     this.GoodsList = result;
+     this.isFirstLoad = false;
+
+     // 重新激活滚动控件
+     this.busy = false;
+     return ;
+  }
+
+  console.log("this.isFirstLoad: " + this.isFirstLoad); 
+
+  if (result && result.length == 0) {
+    // 没有数据了，直接禁用
+    this.busy = true; 
+
+  } else {
+    console.log(this.GoodsList);
+  	    this.GoodsList = this.GoodsList.concat(result);
+
+    // 重新激活滚动控件
+    this.busy = false;
+  }
+})
+
+
+```
+
+安装依赖
+```
+cnpm i -S vue-infinite-scroll
+```

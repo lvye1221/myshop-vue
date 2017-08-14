@@ -27,6 +27,12 @@ mongoose.connection.on("disconnected", function() {
 
 // 获取商品的列表
 router.get('/list', function(req, res, next) {
+	
+    var page = req.param("page"); //第几页
+    var pageSize = req.param("pageSize"); //每页有多少条数据
+	pageSize = parseInt(pageSize); // 转换成整数
+	var skip = (page-1) * pageSize; // 需要跳过多少条
+
 
 	var sort = req.param("sort");
 	var priceLevel = req.param("priceLevel");
@@ -56,7 +62,13 @@ router.get('/list', function(req, res, next) {
 	}
 
 	// 获取数据
-	var goodModel = Goods.find(param);
+	// var goodModel = Goods.find(param);
+
+	var goodModel = Goods.find(param).limit(pageSize).skip(skip);
+
+	// 跳过多少条，限制为当前分页页面条数
+	// var goodModel = Goods.find(param).limit(pageSize).skip(skip);
+
 	// 按照价格排序
 	goodModel.sort({'salePrice':sort})
 

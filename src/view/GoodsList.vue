@@ -46,6 +46,16 @@
                     </div>
                   </div>
                 </li>
+
+	    <!-- 正在加载提示框
+		v-infinite-scroll 代表 一滚动对应的距离，就自动调用 loadMore 方法
+		infinite-scroll-disabled true代表禁用此控件
+		infinite-scroll-distance 代表多少距离触发此控件
+	    -->
+            <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="20" v-show="!busy">
+              正在加载 ...
+            </div>
+
               </ul>
             </div>
           </div>
@@ -63,7 +73,15 @@
     name: 'GoodsList',
     data () {
       return {
+	// 是否第一次加载数据
+        isFirstLoad: true, 
         GoodsList: Array,
+
+	// 下拉刷新的选项
+        busy: false, // 是否正在加载
+        page: 1, // 当前第几列
+        pageSize: 8,  // 一页的数据量
+
 	// 排序的选项
 	sortOption: 0,
         sortFlag: true,
@@ -95,26 +113,63 @@
       this.getGoodsList()
     },
     methods: {
+      // 获取商品列表
       getGoodsList() {
         let param = {
           sort:this.sortFlag ? 1 : -1,
-          priceLevel: this.priceChecked
+          priceLevel: this.priceChecked, 
+          page: this.page, 
+          pageSize: this.pageSize
         }
 
       	axios.get('/goods/list', {params:param}).then((res) => {
       	  let result = res.data.result;
       	  
-      	  this.GoodsList = result
+	  // 是否第一次加载
+	  if (this.isFirstLoad) {
+	     this.GoodsList = result;
+	     this.isFirstLoad = false;
+
+	     // 重新激活滚动控件
+	     this.busy = false;
+	     return ;
+	  }
+
+	  console.log("this.isFirstLoad: " + this.isFirstLoad); 
+
+	  if (result && result.length == 0) {
+	    // 没有数据了，直接禁用
+	    this.busy = true; 
+
+	  } else {
+	    console.log(this.GoodsList);
+      	    this.GoodsList = this.GoodsList.concat(result);
+
+	    // 重新激活滚动控件
+	    this.busy = false;
+	  }
+
       	})
       },
-      sortGoods(){
+      sortGoods() {
 	this.sortOption = 1;
         this.sortFlag = !this.sortFlag;
         this.getGoodsList();
       },
-      setPriceFilter(index){
+      setPriceFilter(index) {
         this.priceChecked = index;
         this.getGoodsList();
+      },
+      loadMore() {
+
+	  // 首先禁止滚动刷新
+          this.busy = true;
+
+	  // 延迟加载
+          setTimeout(() => {
+            this.page ++;
+            this.getGoodsList();
+          }, 500);
       }
     }
   }
