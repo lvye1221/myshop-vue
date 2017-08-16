@@ -12,3 +12,10 @@ SyntaxError: Block-scoped declarations (let, const, function, class) not yet sup
 ```
 
 
+nodejs 版本太低了
+
+
+http://nodejs.cn/download/
+【解决办法】下载最新版本即可
+
+
