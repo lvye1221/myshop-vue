@@ -19,3 +19,10 @@ http://nodejs.cn/download/
 【解决办法】下载最新版本即可
 
 
+
+
+# 请求数据 #
+
+根据session 判断更好
+
+

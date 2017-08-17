@@ -398,5 +398,9 @@ cnpm i -S vue-infinite-scroll
 
 ## 用户登录与注册功能 ##
 
+# step7-user-check #
 
+用户信息的管理
 
+1. 保存用户登陆的信息
+2. 

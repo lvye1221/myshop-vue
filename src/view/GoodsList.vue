@@ -62,6 +62,33 @@
         </div>
       </div>
     </div>
+
+
+
+
+      <!-- 模态框 -->
+      <div class="md-modal modal-msg md-modal-transition" :class="{'md-show':mdShow}">
+        <div class="md-modal-inner">
+          <div class="md-top">
+            <div class="md-title">信息提示</div>
+            <button class="md-close">Close</button>
+          </div>
+          <div class="md-content">
+            <div class="confirm-tips">
+              <div class="error-wrap">
+                <span class="error error-show">请先登录否则无法加入购物车</span>
+              </div>
+            </div>
+            <div class="login-wrap">
+              <a href="javascript:;" class="btn-login" @click="closeModal">关闭</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="md-overlay" v-if="mdShow"></div>
+
+
+
   </div>
 </template>
 
@@ -81,6 +108,9 @@
         busy: false, // 是否正在加载
         page: 1, // 当前第几列
         pageSize: 8,  // 一页的数据量
+
+	// 是否显示对话框
+        mdShow:false,
 
 	// 排序的选项
 	sortOption: 0,
@@ -181,9 +211,13 @@
             if(res.status == 0){
               alert('加入购物车成功')
             }else{
-              alert('加入购物车失败')
+              // alert('加入购物车失败')
+              this.mdShow = true;
             }
         })
+      },
+      closeModal(){
+        this.mdShow = false;
       }
     }
   }
