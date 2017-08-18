@@ -125,11 +125,13 @@ router.get("/cartList",function(req,res,next){
 // 购物车数量操作
 router.post('/cartEdit',function(req,res,next){
   let userId = req.cookies.userId;
-  productId = req.body.productId;
-  productNum = req.body.productNum;
+  let productId = req.body.productId;
+  let productNum = req.body.productNum;
+  let checked = req.body.checked;
 
   User.update({"userId":userId,"cartList.productId":productId},{
-    "cartList.$.productNum" : productNum
+    "cartList.$.productNum" : productNum,
+    "cartList.$.checked" : checked,
   },function(err,doc){
       if(err){
         res.json({
@@ -165,6 +167,33 @@ router.post("/cartDel",function(req,res,next){
       res.json({status:'0',msg:'',result:'商品删除成功'})
     }
   })
+})
+
+// 全选的接口
+router.post('/editCheckAll',function(req,res,next){
+  let userId = req.cookies.userId,
+      checkAll = req.body.checkAll ? '1': '0';
+      
+      User.findOne({'userId':userId},function(err,user){
+        if(err){
+          res.json({
+            status:'1',
+            msg:err.message,
+            result:''
+          })
+        }else{
+          user.cartList.forEach((item) => {
+            item.checked = checkAll;
+          })
+          user.save(function(err1,doc){
+            if(err1){ 
+              res.json({status:'1',msg:err.message,result:''});
+            }else{
+              res.json({status:'0',msg:'',result:'操作成功'});
+            }
+          })
+        }
+      })
 })
 
 // 匹配其他未匹配的路由地址
