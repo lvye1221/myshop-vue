@@ -403,4 +403,8 @@ cnpm i -S vue-infinite-scroll
 用户信息的管理
 
 1. 保存用户登陆的信息
-2. 
+2. cookie的使用
+
+
+
+
