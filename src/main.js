@@ -10,6 +10,8 @@ import '../static/css/checkout.css'
 import '../static/css/login.css'
 import '../static/css/product.css'
 
+// import '@/assets/css/checkout'
+
 // 全局注册滚动组件
 import infiniteScroll from 'vue-infinite-scroll'
 Vue.use(infiniteScroll)

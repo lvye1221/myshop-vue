@@ -62,39 +62,36 @@
         </div>
       </div>
     </div>
-
-
-
-
-      <!-- 模态框 -->
-      <div class="md-modal modal-msg md-modal-transition" :class="{'md-show':mdShow}">
-        <div class="md-modal-inner">
-          <div class="md-top">
-            <div class="md-title">信息提示</div>
-            <button class="md-close">Close</button>
-          </div>
-          <div class="md-content">
-            <div class="confirm-tips">
-              <div class="error-wrap">
-                <span class="error error-show">请先登录否则无法加入购物车</span>
-              </div>
-            </div>
-            <div class="login-wrap">
-              <a href="javascript:;" class="btn-login" @click="closeModal">关闭</a>
-            </div>
-          </div>
-        </div>
+    
+    <!-- 在未登录的情况下 -->
+    <modal :mdShow="mdShow">
+      <p slot="message">请先登录否则无法加入购物车</p>
+      <div slot="btnGroup">
+          <a href="javascript:;" class="btn-login" @click="mdShow = false">关闭</a>
       </div>
-      <div class="md-overlay" v-if="mdShow"></div>
+    </modal>
 
 
+    <!-- 登录成功的情况下 -->
+
+    <modal :mdShow="mdShowCart">
+      <p slot="message">加入购物车成功</p>
+      <div slot="btnGroup">
+          <a href="javascript:;" class="btn btn--m" @click="mdShowCart = false">继续购物</a>
+          <router-link class="btn btn--m"  to="/cart"> 查看购物车</router-link>
+      </div>
+    </modal>
 
   </div>
+
+
+
 </template>
 
 <script>
   import axios from 'axios'
   import NavBread from '@/components/NavBread.vue'
+  import Modal from '@/components/Modal'
 
   export default {
     name: 'GoodsList',
@@ -111,6 +108,7 @@
 
 	// 是否显示对话框
         mdShow:false,
+        mdShowCart:false,
 
 	// 排序的选项
 	sortOption: 0,
@@ -137,7 +135,8 @@
       }
     },
     components: {
-      NavBread
+      NavBread,
+      Modal
     },
     mounted: function() {
       this.getGoodsList()
@@ -209,7 +208,8 @@
         }).then((res) => {
             var res = res.data;
             if(res.status == 0){
-              alert('加入购物车成功')
+              // alert('加入购物车成功')
+              this.mdShowCart=true;
             }else{
               // alert('加入购物车失败')
               this.mdShow = true;
