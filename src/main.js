@@ -19,6 +19,8 @@ Vue.use(infiniteScroll)
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 
+axios.defaults.baseURL = 'v1/';
+
 import VueLazyLoad from 'vue-lazyload'
 
 Vue.use(VueLazyLoad,{

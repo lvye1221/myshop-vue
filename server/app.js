@@ -24,23 +24,43 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+function isWhiteUrl(url) {
+	var arr = [
+		'/users/login',
+		'/users/logout',
+		'/goods/list'
+	];
+
+	for (var i = 0; i < arr.length; i++) {
+		
+
+		if (url == arr[i]) {
+			return true;
+		}
+	}
+
+	return false;
+}
 
 
 // 访问拦截 就是所有访问都走这个逻辑
 app.use(function(req,res,next){
+
+
+  console.log(req.path);
+
   if(req.cookies.userId){
     next();
   }else{
-    if(
-      // 加入白名单
-      req.originalUrl == '/users/login' 
-      || req.originalUrl == '/users/logout' 
-      || req.path == '/goods/list'
-    ){
-    // console.log(req);
+    if( isWhiteUrl(req.path) ){
+   
+      console.log("next");
     // console.log(req);
       next();
     }else{
+
+      console.log("当前未登录");
+
       res.json({
         status:'1',
         msg:'当前未登录',

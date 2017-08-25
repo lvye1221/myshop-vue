@@ -23,11 +23,18 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,
+    // port: 8080,
+    port: 80,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 	proxyTable: {
+       '/v1/**':{
+			target: 'http://localhost:3000/',
+			pathRewrite: {
+			  '^/v1': '/'
+			}
+		},
 		// 代表请求某个数据时，就自动转发服务器
 		'/goods': {
 			target: 'http://localhost:3000'
