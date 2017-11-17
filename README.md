@@ -408,3 +408,43 @@ cnpm i -S vue-infinite-scroll
 
 
 
+
+
+# 参考资料 #
+
+
+// 王树东的代码
+https://github.com/itguide/zhenfan
+
+
+
+
+
+
+王树东github账号：github.com/wsdo 
+
+	https://github.com/itguide/fe10 
+
+问题解决论坛：
+http://bbs.shudong.wang/forum.php 
+
+ 
+https://segmentfault.com/ 
+
+https://stackoverflow.com/ 
+
+https://www.iviewui.com/docs/guide/install 
+
+ 
+常用资源库：http://www.bootcdn.cn/ 
+
+
+每天视频地址，永久不变：
+链接：http://pan.baidu.com/s/1b8b0xc 
+
+ 密码：vvj3
+segmentfault 地址： https://segmentfault.com/u/itnote/articles 
+
+
+
+

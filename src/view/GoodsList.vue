@@ -99,7 +99,7 @@
       return {
 	// 是否第一次加载数据
         isFirstLoad: true, 
-        GoodsList: Array,
+        GoodsList: [],
 
 	// 下拉刷新的选项
         busy: false, // 是否正在加载
@@ -143,7 +143,13 @@
     },
     methods: {
       // 获取商品列表
-      getGoodsList() {
+      getGoodsList(flag) {
+
+        if (this == undefined) {
+          return ;
+        }
+
+
         let param = {
           sort:this.sortFlag ? 1 : -1,
           priceLevel: this.priceChecked, 
@@ -151,54 +157,53 @@
           pageSize: this.pageSize
         }
 
-      	axios.get('/goods/list', {params:param}).then((res) => {
-      	  let result = res.data.result;
-      	  
-	  // 是否第一次加载
-	  if (this.isFirstLoad) {
-	     this.GoodsList = result;
-	     this.isFirstLoad = false;
+        var that = this;
 
-	     // 重新激活滚动控件
-	     this.busy = false;
-	     return ;
-	  }
-
-	  console.log("this.isFirstLoad: " + this.isFirstLoad); 
-
-	  if (result && result.length == 0) {
-	    // 没有数据了，直接禁用
-	    this.busy = true; 
-
-	  } else {
-	    console.log(this.GoodsList);
-      	    this.GoodsList = this.GoodsList.concat(result);
-
-	    // 重新激活滚动控件
-	    this.busy = false;
-	  }
-
-      	})
+        axios.get("/goods/list",{params:param}).then((result) => {
+          let res = result.data;
+          if(res.status == 0){
+            if(flag){
+              that.GoodsList = that.GoodsList.concat(res.result);
+              // 判断当数据加载完了就截停
+              console.log(res.result.length);
+              if(res.result.length == 0){
+                that.busy = true;
+              }else{
+                that.busy = false;
+              }
+            }else{
+              that.GoodsList = res.result;
+              that.busy = false;
+            }
+            // console.log(that.GoodsList);
+          }else{
+            // 系统正忙
+            // alert("系统正忙")
+            // that.busy = false;
+          }
+          
+        })
       },
+
       sortGoods() {
-	this.sortOption = 1;
+	      this.sortOption = 1;
         this.sortFlag = !this.sortFlag;
         this.getGoodsList();
       },
       setPriceFilter(index) {
+        this.page = 1;
         this.priceChecked = index;
         this.getGoodsList();
       },
       loadMore() {
+        // 首先禁止滚动刷新
+        this.busy = true;
 
-	  // 首先禁止滚动刷新
-          this.busy = true;
-
-	  // 延迟加载
-          setTimeout(() => {
-            this.page ++;
-            this.getGoodsList();
-          }, 500);
+        // 延迟加载
+        setTimeout(() => {
+          this.page ++;            
+          this.getGoodsList(true);
+        }, 500);
       },
       //添加购物车
       addCart(productId){

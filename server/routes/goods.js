@@ -5,9 +5,9 @@ var Goods = require('../model/goods');
 
 // 连接数据库
 // mongoose.connect("mongodb://127.0.0.1:27017/shop");
-// mongoose.connect('mongodb://120.27.245.209:27019/shop');
+mongoose.connect('mongodb://120.27.245.209:27019/shop');
 // mongoose.connect('mongodb://67.216.223.7:27017/shop');
-mongoose.connect("mongodb://127.0.0.1:27018/shop");
+// mongoose.connect("mongodb://127.0.0.1:27018/shop");
 
 
 // 连接成功的时候调用
@@ -31,71 +31,45 @@ mongoose.connection.on("disconnected", function() {
 // 获取商品的列表
 router.get('/list', function(req, res, next) {
 	
-    var page = req.param("page"); //第几页
-    var pageSize = req.param("pageSize"); //每页有多少条数据
-	pageSize = parseInt(pageSize); // 转换成整数
-	var skip = (page-1) * pageSize; // 需要跳过多少条
+	let page = req.param("page"); //第几页
+  let pagesize = req.param("pageSize"); //每页有多少条数据
 
+  let sort = req.param("sort");
+  let priceLevel = req.param("priceLevel");
+  let priceGt = '',priceLte = '';
+  let skip = (page-1) * pagesize;
+  let param = {};
+  if(priceLevel != 'all'){
+    switch (priceLevel) {
+      case '0': priceGt = 0; priceLte = 100;break;
+      case '1': priceGt = 100; priceLte = 500;break;
+      case '2': priceGt = 500; priceLte = 1000;break;
+      case '3': priceGt = 1000; priceLte = 5000;break;
+    }
 
-	var sort = req.param("sort");
-	var priceLevel = req.param("priceLevel");
-	var param = {};
+    param = {
+      salePrice:{
+        $gt:priceGt,
+        $lte:priceLte,
+      }
+    }
+  }
 
-	if (priceLevel == '') {
-		priceLevel = 'all';
-	}
+	console.log("skip: " + skip, "pagesize:" + pagesize);
+	console.log("param: ", param);
+	console.log("salePrice sort: ", sort);
 
-	if (priceLevel != 'all') {
-		var priceGt = '';
-		var priceLte = '';
+	pagesize = parseInt(pagesize);
 
-		switch (priceLevel) {
-			case '0': priceGt = 0; priceLte = 100;break;
-			case '1': priceGt = 100; priceLte = 500;break;
-			case '2': priceGt = 500; priceLte = 1000;break;
-			case '3': priceGt = 1000; priceLte = 5000;break;
-		}
-
-		param = {
-		  salePrice:{
-			$gt:priceGt,
-			$lte:priceLte,
-		  }
-		}
-	}
-
-	// 获取数据
-	// var goodModel = Goods.find(param);
-
-	var goodModel = Goods.find(param).limit(pageSize).skip(skip);
-
-	// 跳过多少条，限制为当前分页页面条数
-	// var goodModel = Goods.find(param).limit(pageSize).skip(skip);
-
-	// 按照价格排序
-	goodModel.sort({'salePrice':sort})
-
-	// 执行命令
-	goodModel.exec({},function(err, docs) {
-	  console.log(docs);
-	  res.json({
-		status:'0',
-		result:docs
-	  });
-	});
-
-
-    // 获取数据
-	/*
-	var result = Goods.find({}, function(err, goods) {
-	
-		// 返回JSON数据
-		res.json({
-			status: 0,
-			result: goods
-		});
-	});
-	//*/
+  let goodModel = Goods.find(param).limit(pagesize).skip(skip);
+  goodModel.sort({'salePrice':sort})
+  goodModel.exec({},function(err, docs){
+      console.log(err, docs);
+      res.json({
+        status:'0',
+        result:docs
+      })
+  })
 });
 
 
