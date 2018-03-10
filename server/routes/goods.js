@@ -4,8 +4,8 @@ var mongoose = require('mongoose');
 var Goods = require('../model/goods');
 
 // 连接数据库
-// mongoose.connect("mongodb://127.0.0.1:27017/shop");
-mongoose.connect('mongodb://120.27.245.209:27019/shop');
+mongoose.connect("mongodb://127.0.0.1:27017/shop");
+// mongoose.connect('mongodb://120.27.245.209:27019/shop');
 // mongoose.connect('mongodb://67.216.223.7:27017/shop');
 // mongoose.connect("mongodb://127.0.0.1:27018/shop");
 
@@ -55,7 +55,7 @@ router.get('/list', function(req, res, next) {
     }
   }
 
-	console.log("skip: " + skip, "pagesize:" + pagesize);
+	console.log("page: " + page, "skip: " + skip, "pagesize:" + pagesize);
 	console.log("param: ", param);
 	console.log("salePrice sort: ", sort);
 
@@ -63,6 +63,8 @@ router.get('/list', function(req, res, next) {
 
   let goodModel = Goods.find(param).limit(pagesize).skip(skip);
   goodModel.sort({'salePrice':sort})
+	if ()
+	goodModel.sort({'salePrice':sort})
   goodModel.exec({},function(err, docs){
       console.log(err, docs);
       res.json({

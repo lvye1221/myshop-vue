@@ -6,7 +6,7 @@
       <div class="container">
         <div class="filter-nav">
           <span class="sortby">Sort by:</span>
-          <a href="javascript:void(0)" class="default" :class="{'cur':sortOption == 0}">Default</a>
+          <a href="javascript:void(0)" class="default" :class="{'cur':sortOption == 0}"  @click="defaultGoods()">Default</a>
           <a href="javascript:void(0)" class="price" :class="{'cur':sortOption == 1}"  @click="sortGoods()" >Price
             <svg class="icon icon-arrow-short">
               <use xlink:href="#icon-arrow-short"></use>
@@ -185,7 +185,12 @@
         })
       },
 
+      defaultGoods() {
+        this.sortOption = 0;
+      },
+
       sortGoods() {
+        this.page = 1;
 	      this.sortOption = 1;
         this.sortFlag = !this.sortFlag;
         this.getGoodsList();
