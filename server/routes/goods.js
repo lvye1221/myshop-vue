@@ -63,8 +63,6 @@ router.get('/list', function(req, res, next) {
 
   let goodModel = Goods.find(param).limit(pagesize).skip(skip);
   goodModel.sort({'salePrice':sort})
-	if ()
-	goodModel.sort({'salePrice':sort})
   goodModel.exec({},function(err, docs){
       console.log(err, docs);
       res.json({
